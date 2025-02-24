@@ -3,6 +3,7 @@ import {
   HttpStatus,
   Injectable,
   InternalServerErrorException,
+  NotFoundException,
 } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
@@ -46,6 +47,29 @@ export class UsersService {
         throw e;
       }
       throw new InternalServerErrorException('Failed to create user.');
+    }
+  }
+
+  async update(id: number, updateUserDto: UpdateUserDto) {
+    try {
+      const user = await this.userRepository.findOneBy({ id });
+      if (!user) {
+        throw new NotFoundException('User not found');
+      }
+
+      await this.userRepository.update(id, updateUserDto);
+      const userInfo = await this.userRepository.findOneBy({ id });
+
+      return {
+        status: HttpStatus.OK,
+        message: "User's score updated successfully.",
+        data: userInfo,
+      };
+    } catch (e) {
+      if (e instanceof NotFoundException) {
+        throw e;
+      }
+      throw new InternalServerErrorException("Failed to update user's score.");
     }
   }
 }
