@@ -10,7 +10,7 @@ export class User {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column('varchar', { name: 'name', length: 50, unique: true })
+  @Column({ name: 'name', unique: true, nullable: false })
   name: string;
 
   @Column({ name: 'phone_number', nullable: true })
