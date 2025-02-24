@@ -72,4 +72,26 @@ export class UsersService {
       throw new InternalServerErrorException("Failed to update user's score.");
     }
   }
+
+  async findAll() {
+    try {
+      const users = await this.userRepository.find({
+        order: { score: 'DESC' },
+      });
+      if (!users) {
+        throw new NotFoundException('Users not found');
+      }
+
+      return {
+        status: HttpStatus.OK,
+        message: 'Users retrieved successfully.',
+        data: users,
+      };
+    } catch (e) {
+      if (e instanceof NotFoundException) {
+        throw e;
+      }
+      throw new InternalServerErrorException('Failed to retrieve users.');
+    }
+  }
 }
