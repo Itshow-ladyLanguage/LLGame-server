@@ -13,12 +13,17 @@ export class UsersController {
   }
 
   @Patch(':id')
-  async update(@Param('id') id: number, @Body() updateUserDto: UpdateUserDto) {
-    return await this.usersService.update(id, updateUserDto);
+  async update(@Param('id') id: number, @Body() score: UpdateUserDto) {
+    return await this.usersService.update(id, score);
   }
 
   @Get()
   async findAll() {
     return await this.usersService.findAll();
+  }
+
+  @Get(':id')
+  async findOne(@Param('id') id: number) {
+    return await this.usersService.findOne(id);
   }
 }

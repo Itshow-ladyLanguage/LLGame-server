@@ -50,14 +50,14 @@ export class UsersService {
     }
   }
 
-  async update(id: number, updateUserDto: UpdateUserDto) {
+  async update(id: number, score: UpdateUserDto) {
     try {
       const user = await this.userRepository.findOneBy({ id });
       if (!user) {
         throw new NotFoundException('User not found');
       }
 
-      await this.userRepository.update(id, updateUserDto);
+      await this.userRepository.update(id, score);
       const userInfo = await this.userRepository.findOneBy({ id });
 
       return {
@@ -92,6 +92,26 @@ export class UsersService {
         throw e;
       }
       throw new InternalServerErrorException('Failed to retrieve users.');
+    }
+  }
+
+  async findOne(id: number) {
+    try {
+      const user = await this.userRepository.findOneBy({ id });
+      if (!user) {
+        throw new NotFoundException('User not found');
+      }
+
+      return {
+        status: HttpStatus.OK,
+        message: 'User retrieved successfully.',
+        data: user,
+      };
+    } catch (e) {
+      if (e instanceof NotFoundException) {
+        throw e;
+      }
+      throw new InternalServerErrorException('Failed to retrieve user.');
     }
   }
 }

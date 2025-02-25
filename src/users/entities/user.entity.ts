@@ -16,6 +16,13 @@ export class User {
   @Column({ name: 'phone_number', nullable: true })
   phone_number: string;
 
+  @Column({
+    name: 'profile_image',
+    nullable: false,
+    default: '../public/images/profile_img.png',
+  })
+  profile_image: string;
+
   @Column({ name: 'score', default: 0 })
   score: number;
 
