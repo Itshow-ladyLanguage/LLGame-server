@@ -18,30 +18,22 @@ export class UsersService {
     private userRepository: Repository<User>,
   ) {}
 
-  async create(createUserDto: CreateUserDto) {
+  async create(createUserDto: CreateUserDto): Promise<User> {
     try {
       const existingUser = await this.userRepository.findOne({
         where: { name: createUserDto.name.trim() },
       });
-      console.log('existing user', existingUser);
-
-      if (createUserDto.name.trim() == '') {
-        throw new BadRequestException('The user name must not be null');
-      }
       if (existingUser) {
         throw new BadRequestException(
           `User with name ${createUserDto.name.trim()} is already exists.`,
         );
       }
-
       const newUser = { ...createUserDto, name: createUserDto.name.trim() };
-      await this.userRepository.save(newUser);
+      if (newUser.name.trim() == '') {
+        throw new BadRequestException('The user name must not be null');
+      }
 
-      return {
-        status: HttpStatus.CREATED,
-        message: 'User created successfully',
-        data: newUser,
-      };
+      return await this.userRepository.save(newUser);
     } catch (e) {
       if (e instanceof BadRequestException) {
         throw e;
@@ -58,13 +50,8 @@ export class UsersService {
       }
 
       await this.userRepository.update(id, score);
-      const userInfo = await this.userRepository.findOneBy({ id });
 
-      return {
-        status: HttpStatus.OK,
-        message: "User's score updated successfully.",
-        data: userInfo,
-      };
+      return await this.userRepository.findOneBy({ id });
     } catch (e) {
       if (e instanceof NotFoundException) {
         throw e;
@@ -73,20 +60,11 @@ export class UsersService {
     }
   }
 
-  async findAll() {
+  async findAll(): Promise<User[]> {
     try {
-      const users = await this.userRepository.find({
+      return await this.userRepository.find({
         order: { score: 'DESC' },
       });
-      if (!users) {
-        throw new NotFoundException('Users not found');
-      }
-
-      return {
-        status: HttpStatus.OK,
-        message: 'Users retrieved successfully.',
-        data: users,
-      };
     } catch (e) {
       if (e instanceof NotFoundException) {
         throw e;
@@ -95,18 +73,14 @@ export class UsersService {
     }
   }
 
-  async findOne(id: number) {
+  async findOne(id: number): Promise<User> {
     try {
       const user = await this.userRepository.findOneBy({ id });
       if (!user) {
         throw new NotFoundException('User not found');
       }
 
-      return {
-        status: HttpStatus.OK,
-        message: 'User retrieved successfully.',
-        data: user,
-      };
+      return user;
     } catch (e) {
       if (e instanceof NotFoundException) {
         throw e;
