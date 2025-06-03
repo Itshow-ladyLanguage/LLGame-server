@@ -13,8 +13,8 @@ export class User {
   @Column({ name: 'name', unique: true, nullable: false })
   name: string;
 
-  @Column({ name: 'phone_number', nullable: true })
-  phone_number: string;
+  @Column({ name: 'email', nullable: false })
+  email: string;
 
   @Column({
     name: 'profile_image',
