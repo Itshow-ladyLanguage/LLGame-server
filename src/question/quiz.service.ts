@@ -4,7 +4,7 @@ import { Repository } from 'typeorm';
 import { Quiz } from './entities/quiz.entity';
 
 @Injectable()
-export class QuestionService {
+export class QuizService {
   constructor(
     @InjectRepository(Quiz)
     private readonly quizRepository: Repository<Quiz>,
@@ -66,5 +66,10 @@ export class QuestionService {
       }));
 
     return { multipleChoice, shortAnswer, oxQuiz };
+  }
+
+  async findShortAnswer(): Promise<Quiz[]> {
+    const quizzes = await this.findAllQuizzes();
+    return quizzes.filter((q) => q.type === 'short-answer');
   }
 }

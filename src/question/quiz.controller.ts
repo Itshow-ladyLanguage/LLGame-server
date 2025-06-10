@@ -1,17 +1,17 @@
 import { Controller, Get } from '@nestjs/common';
-import { QuestionService } from './quiz.service';
+import { QuizService } from './quiz.service';
 
 @Controller('api/quiz')
-export class QuestionController {
-  constructor(private readonly questionService: QuestionService) {}
+export class QuizController {
+  constructor(private readonly quizService: QuizService) {}
 
   @Get()
   async findAllQuestion() {
-    return this.questionService.findAllQuizzes();
+    return this.quizService.findAllQuizzes();
   }
 
   @Get('random-set')
   async findRandomQuizzes() {
-    return this.questionService.findRandomQuizzes();
+    return this.quizService.findRandomQuizzes();
   }
 }
