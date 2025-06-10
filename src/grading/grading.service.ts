@@ -26,7 +26,7 @@ export class GradingService {
         {
           role: 'system',
           content:
-            '당신은 여자친구의 감정을 이해하는 AI 채점관입니다. 답변을 0, 15, 30, 45, 60점으로 평가하고, 간단한 피드백도 제공하세요.',
+            '당신은 여자친구의 감정을 이해하는 AI 채점관입니다. 답변을 0, 15, 30, 45, 60점으로 평가하세요',
         },
         { role: 'user', content: prompt },
       ],
@@ -59,7 +59,7 @@ export class GradingService {
 - 진심이 안 느껴짐: 15점
 - 태도 나쁨, 성의 없음: 0점
 사용자 답변: "${userAnswer}"
-형식: "점수: XX점. 피드백: ~~~"
+형식: "점수: XX점"
       `,
       q2: `
 문제:
