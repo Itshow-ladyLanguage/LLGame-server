@@ -26,7 +26,7 @@ export class User {
   @Column({ name: 'score', default: 0 })
   score: number;
 
-  @Column()
+  @Column({ nullable: true })
   type: string;
 
   @CreateDateColumn()
