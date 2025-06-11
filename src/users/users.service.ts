@@ -66,6 +66,7 @@ export class UsersService {
         order: { score: 'DESC' },
       });
     } catch (e) {
+      console.log(e);
       if (e instanceof NotFoundException) {
         throw e;
       }

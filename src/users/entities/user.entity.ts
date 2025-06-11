@@ -19,7 +19,7 @@ export class User {
   @Column({
     name: 'profile_image',
     nullable: false,
-    default: '../public/images/profile_img.png',
+    default: 'public/images/profile_img.png',
   })
   profile_image: string;
 
