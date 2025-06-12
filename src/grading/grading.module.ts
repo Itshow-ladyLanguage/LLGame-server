@@ -1,12 +1,11 @@
 import { Module } from '@nestjs/common';
-import { TypeOrmModule } from '@nestjs/typeorm';
-import { Question } from './entities/question.entity';
-import { QuestionService } from './question/question.service';
-import { GradingService } from './grading/grading.service';
+import { GradingService } from './grading.service';
+import { GradingController } from './grading.controller';
+import { QuizModule } from '../question/quiz.module';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Question])],
-  providers: [QuestionService, GradingService],
-  exports: [QuestionService, GradingService],
+  imports: [QuizModule],
+  controllers: [GradingController],
+  providers: [GradingService],
 })
-export class AppModule {}
+export class GradingModule {}
