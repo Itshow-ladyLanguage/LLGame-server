@@ -14,4 +14,19 @@ export class QuizController {
   async findRandomQuizzes() {
     return this.quizService.findRandomQuizzes();
   }
+
+  @Get('multiple')
+  async findRandomMultipleChoice() {
+    return this.quizService.findRandomMultipleChoice();
+  }
+
+  @Get('short')
+  async findRandomShortAnswer() {
+    return this.quizService.findRandomShortAnswer();
+  }
+
+  @Get('ox')
+  async findRandomOX() {
+    return this.quizService.findRandomOX();
+  }
 }
