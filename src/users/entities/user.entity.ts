@@ -17,9 +17,9 @@ export class User {
   email: string;
 
   @Column({
+    type: 'mediumtext',  // 또는 'longtext'
     name: 'profile_image',
-    nullable: false,
-    default: 'public/images/profile_img.png',
+    nullable: true
   })
   profile_image: string;
 
