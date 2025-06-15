@@ -13,8 +13,26 @@ async function bootstrap() {
     credentials: true,
   });
 
+  app.use(bodyParser.json({ limit: '10mb' }));
+  app.use(bodyParser.urlencoded({ limit: '10mb', extended: true }));
   app.useGlobalPipes(new ValidationPipe());
-
+  app.useGlobalFilters(new (class {
+    catch(exception: any, host: any) {
+      console.error('=== 글로벌 에러 캐치 ===');
+      console.error('에러:', exception);
+      console.error('스택:', exception.stack);
+      
+      const ctx = host.switchToHttp();
+      const response = ctx.getResponse();
+      
+      response.status(500).json({
+        message: 'Internal server error',
+        error: exception.message,
+        statusCode: 500
+      });
+    }
+  })());
+  
   await app.listen(process.env.PORT);
 }
 bootstrap();
