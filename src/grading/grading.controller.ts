@@ -2,7 +2,7 @@ import { Controller, Post, Get, Body, Param } from '@nestjs/common';
 import { GradingService } from './grading.service';
 import { AnswerDto } from './dto/answer.dto';
 
-@Controller('grading')
+@Controller('api/grading')
 export class GradingController {
   constructor(private readonly gradingService: GradingService) {}
 
@@ -13,7 +13,7 @@ export class GradingController {
   ): Promise<{ score: number; feedback: string }> {
     return this.gradingService.evaluateAnswer(quiz_id, dto);
   }
-  
+
   @Get(':quiz_id')
   async getQuiz(@Param('quiz_id') quiz_id: number) {
     return this.gradingService.getQuizInfo(quiz_id);

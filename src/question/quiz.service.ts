@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Quiz } from './entities/quiz.entity';
@@ -25,6 +25,70 @@ export class QuizService {
       ];
     }
     return shuffledArray;
+  }
+
+  async findRandomMultipleChoice(): Promise<Quiz[]> {
+    const quizzes = await this.findAllQuizzes();
+
+    const multipleChoiceAll = quizzes.filter(
+      (q) => q.type === 'multiple-choice',
+    );
+
+    const multipleChoice = this.shuffleArray([...multipleChoiceAll])
+      .slice(0, 6)
+      .map((q) => ({
+        id: q.id,
+        type: q.type,
+        question: q.question,
+        answer: JSON.parse(q.answer),
+        score: JSON.parse(q.score),
+      }));
+
+    if (!multipleChoice) {
+      throw new NotFoundException('multiple choice not found');
+    }
+
+    return multipleChoice;
+  }
+
+  async findRandomShortAnswer() {
+    const quizzes = await this.findAllQuizzes();
+    const shortAnswerAll = quizzes.filter((q) => q.type === 'short-answer');
+
+    const shortAnswer = this.shuffleArray([...shortAnswerAll])
+      .slice(0, 3)
+      .map((q) => ({
+        id: q.id,
+        type: q.type,
+        question: q.question,
+        score: JSON.parse(q.score),
+      }));
+
+    if (!shortAnswer) {
+      throw new NotFoundException('multiple choice not found');
+    }
+
+    return shortAnswer;
+  }
+  async findRandomOX(): Promise<Quiz[]> {
+    const quizzes = await this.findAllQuizzes();
+    const oxQuizAll = quizzes.filter((q) => q.type === 'ox');
+
+    const oxQuiz = this.shuffleArray([...oxQuizAll])
+      .slice(0, 3)
+      .map((q) => ({
+        id: q.id,
+        type: q.type,
+        question: q.question,
+        answer: q.answer,
+        score: JSON.parse(q.score),
+      }));
+
+    if (!oxQuiz) {
+      throw new NotFoundException('multiple choice not found');
+    }
+
+    return oxQuiz;
   }
 
   async findRandomQuizzes(): Promise<Object> {
