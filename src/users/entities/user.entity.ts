@@ -10,16 +10,16 @@ export class User {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column({ name: 'name', unique: true, nullable: false })
+  @Column({ name: 'name', unique: false, nullable: false })
   name: string;
 
   @Column({ name: 'email', nullable: false })
   email: string;
 
   @Column({
-    type: 'mediumtext',  // 또는 'longtext'
+    type: 'mediumtext', // 또는 'longtext'
     name: 'profile_image',
-    nullable: true
+    nullable: true,
   })
   profile_image: string;
 

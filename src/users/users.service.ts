@@ -20,14 +20,6 @@ export class UsersService {
 
   async create(createUserDto: CreateUserDto): Promise<User> {
     try {
-      const existingUser = await this.userRepository.findOne({
-        where: { name: createUserDto.name.trim() },
-      });
-      if (existingUser) {
-        throw new BadRequestException(
-          `User with name ${createUserDto.name.trim()} is already exists.`,
-        );
-      }
       const newUser = { ...createUserDto, name: createUserDto.name.trim() };
       if (newUser.name.trim() == '') {
         throw new BadRequestException('The user name must not be null');
