@@ -6,9 +6,16 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { typeORMConfig } from './ormconfig';
 import { QuizModule } from './question/quiz.module';
 import { GradingModule } from './grading/grading.module';
+import { MailModule } from './mail/email.module';  
 
 @Module({
-  imports: [TypeOrmModule.forRoot(typeORMConfig), UsersModule, QuizModule, GradingModule],
+  imports: [
+    TypeOrmModule.forRoot(typeORMConfig),
+    UsersModule,
+    QuizModule,
+    GradingModule,
+    MailModule,  // 추가
+  ],
   controllers: [AppController],
   providers: [AppService],
 })
