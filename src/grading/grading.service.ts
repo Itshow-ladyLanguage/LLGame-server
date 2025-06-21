@@ -43,9 +43,7 @@ export class GradingService {
 
           답변이 문제의 질문과 얼마나 정확하고 밀접하게 관련되어 있는지
 
-          답변의 내용이 DB에 있는 모범답안과 얼마나 유사한지
-
-          답변에 담긴 감정적 진정성과 배려가 얼마나 느껴지는지
+          답변의 내용이 DB에 있는 모범답안과 유사하거나 비슷한 맥락의 내용이라면 점수를 높게 주세요 꼭.
 
           위 세 가지 요소를 모두 고려하여, 각 요소에 따라 점수를 엄격하게 배분합니다.
           답변이 문제와 완전히 동떨어졌거나 엉뚱한 내용일 경우에는 최소 점수인 0점을 줍니다.
@@ -58,9 +56,7 @@ export class GradingService {
 
           응답 형식:
 
-          첫 번째 줄: 사용자의 답변에 대한 감정적 피드백과 함께, 답변이 문제와 얼마나 관련 있는지 간단하게 평가합니다.
-
-          두 번째 줄: "점수: XX점" ← 반드시 이 형식으로, 점수는 0, 15, 30, 45, 60 중 하나로 엄격하게 부여합니다.
+          "점수: XX점" ← 반드시 이 형식으로, 점수는 0, 15, 30, 45, 60 중 하나로 엄격하게 부여합니다.
 
           예시:
 
@@ -80,10 +76,10 @@ export class GradingService {
 
     // 점수 추출 정규식 개선
     const scoreMatch = content.match(/(?:점수[:：]?\s*)?(\d{1,3})\s*점/);
-    const score = scoreMatch ? parseInt(scoreMatch[1], 10) : 0;
+    const score = scoreMatch ? parseInt(scoreMatch[1], 10) : 30;
 
     if (!scoreMatch) {
-      console.warn('⚠️ 점수 추출 실패, 기본 0점 반환');
+      console.warn('⚠️ 점수 추출 실패, 기본 30점 반환');
     }
 
     return {
